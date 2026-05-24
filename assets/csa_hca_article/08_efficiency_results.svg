@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="600" viewBox="0 0 1120 600">
+  <defs>
+    <style>
+      text{font-family:Arial,"Noto Sans SC","Microsoft YaHei",sans-serif;fill:#18202a}
+      .title{font-size:28px;font-weight:700}
+      .sub{font-size:16px;fill:#52616f}
+      .axis{stroke:#2b3440;stroke-width:2}
+      .grid{stroke:#dbe2e8;stroke-width:1}
+      .v3{fill:#cbd5df}
+      .pro{fill:#2f7cc0}
+      .flash{fill:#d08a18}
+      .small{font-size:14px;fill:#5b6670}
+      .box{fill:#fff;stroke:#bcc8d2;stroke-width:2;rx:8}
+    </style>
+  </defs>
+  <rect width="1120" height="600" fill="#fbfcfe"/>
+  <text x="56" y="56" class="title">1M context 下的效率收益</text>
+  <text x="56" y="84" class="sub">相对 DeepSeek-V3.2，V4-Pro / V4-Flash 显著降低 single-token FLOPs 与 KV cache。</text>
+
+  <rect x="70" y="132" width="460" height="354" class="box"/>
+  <text x="300" y="170" text-anchor="middle" font-size="19" font-weight="700">Single-token inference FLOPs</text>
+  <g transform="translate(135,218)">
+    <line x1="0" y1="220" x2="330" y2="220" class="axis"/>
+    <line x1="0" y1="220" x2="0" y2="0" class="axis"/>
+    <line x1="0" y1="110" x2="330" y2="110" class="grid"/>
+    <line x1="0" y1="0" x2="330" y2="0" class="grid"/>
+    <rect x="34" y="0" width="62" height="220" class="v3"/>
+    <rect x="136" y="160.6" width="62" height="59.4" class="pro"/>
+    <rect x="238" y="198" width="62" height="22" class="flash"/>
+    <text x="65" y="-12" text-anchor="middle" class="small">100%</text>
+    <text x="167" y="148" text-anchor="middle" class="small">27%</text>
+    <text x="269" y="186" text-anchor="middle" class="small">10%</text>
+    <text x="65" y="246" text-anchor="middle" class="small">V3.2</text>
+    <text x="167" y="246" text-anchor="middle" class="small">V4-Pro</text>
+    <text x="269" y="246" text-anchor="middle" class="small">V4-Flash</text>
+  </g>
+
+  <rect x="590" y="132" width="460" height="354" class="box"/>
+  <text x="820" y="170" text-anchor="middle" font-size="19" font-weight="700">KV cache</text>
+  <g transform="translate(655,218)">
+    <line x1="0" y1="220" x2="330" y2="220" class="axis"/>
+    <line x1="0" y1="220" x2="0" y2="0" class="axis"/>
+    <line x1="0" y1="110" x2="330" y2="110" class="grid"/>
+    <line x1="0" y1="0" x2="330" y2="0" class="grid"/>
+    <rect x="34" y="0" width="62" height="220" class="v3"/>
+    <rect x="136" y="198" width="62" height="22" class="pro"/>
+    <rect x="238" y="204.6" width="62" height="15.4" class="flash"/>
+    <text x="65" y="-12" text-anchor="middle" class="small">100%</text>
+    <text x="167" y="186" text-anchor="middle" class="small">10%</text>
+    <text x="269" y="193" text-anchor="middle" class="small">7%</text>
+    <text x="65" y="246" text-anchor="middle" class="small">V3.2</text>
+    <text x="167" y="246" text-anchor="middle" class="small">V4-Pro</text>
+    <text x="269" y="246" text-anchor="middle" class="small">V4-Flash</text>
+  </g>
+
+  <text x="84" y="540" class="small">说明：这些数字来自 DeepSeek-V4 技术报告的 1M context 对比；收益来自 Hybrid Attention 与低精度计算/存储等组合设计。</text>
+</svg>

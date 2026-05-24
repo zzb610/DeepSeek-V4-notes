@@ -1,0 +1,6 @@
+[submodule "DeepSeek-V4-Flash"]
+	path = DeepSeek-V4-Flash
+	url = https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash
+[submodule "DeepSeek-V4-Pro-no-weights"]
+	path = DeepSeek-V4-Pro-no-weights
+	url = https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro

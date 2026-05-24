@@ -1,0 +1,4 @@
+**/.git/
+**/*.safetensors
+**/model.safetensors.index.json
+**/.DS_Store

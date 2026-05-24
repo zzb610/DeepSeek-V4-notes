@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="560" viewBox="0 0 1120 560">
+  <defs>
+    <style>
+      text{font-family:Arial,"Noto Sans SC","Microsoft YaHei",sans-serif;fill:#18202a}
+      .title{font-size:28px;font-weight:700}
+      .sub{font-size:16px;fill:#52616f}
+      .box{fill:#fff;stroke:#bcc8d2;stroke-width:2;rx:8}
+      .input{fill:#eef3f7;stroke:#73808c}
+      .latent{fill:#e9f8ef;stroke:#35a567}
+      .proj{fill:#eaf4ff;stroke:#2f7cc0}
+      .cache{fill:#fff2da;stroke:#d08a18}
+      .line{stroke:#506070;stroke-width:2.2;fill:none;marker-end:url(#arrow)}
+      .small{font-size:14px;fill:#5b6670}
+      .mono{font-family:Menlo,Consolas,monospace;font-size:15px}
+    </style>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#506070"/>
+    </marker>
+  </defs>
+  <rect width="1120" height="560" fill="#fbfcfe"/>
+  <text x="56" y="56" class="title">MLA：把 KV 相关表示压到 latent space</text>
+  <text x="56" y="84" class="sub">主要压缩 hidden/latent 表示维度；sequence 长度仍然是 n。</text>
+
+  <rect x="70" y="226" width="154" height="86" class="box input"/>
+  <text x="147" y="262" text-anchor="middle" font-size="18" font-weight="700">Hidden H</text>
+  <text x="147" y="288" text-anchor="middle" class="mono">[n, d]</text>
+
+  <rect x="322" y="160" width="214" height="110" class="box latent"/>
+  <text x="429" y="194" text-anchor="middle" font-size="18" font-weight="700">KV down projection</text>
+  <text x="429" y="222" text-anchor="middle" class="mono">C_KV: [n, d_latent]</text>
+  <text x="429" y="248" text-anchor="middle" class="small">d_latent 更小</text>
+
+  <rect x="322" y="330" width="214" height="86" class="box proj"/>
+  <text x="429" y="364" text-anchor="middle" font-size="18" font-weight="700">Q projection</text>
+  <text x="429" y="392" text-anchor="middle" class="small">query 侧低秩路径</text>
+
+  <rect x="650" y="160" width="214" height="110" class="box cache"/>
+  <text x="757" y="194" text-anchor="middle" font-size="18" font-weight="700">KV cache</text>
+  <text x="757" y="222" text-anchor="middle" class="mono">[n, d_latent]</text>
+  <text x="757" y="248" text-anchor="middle" class="small">每个 token 存得更窄</text>
+
+  <rect x="650" y="330" width="214" height="86" class="box proj"/>
+  <text x="757" y="364" text-anchor="middle" font-size="18" font-weight="700">Use / recover</text>
+  <text x="757" y="392" text-anchor="middle" class="small">用于 attention 计算</text>
+
+  <rect x="956" y="226" width="120" height="86" class="box"/>
+  <text x="1016" y="262" text-anchor="middle" font-size="18" font-weight="700">Output</text>
+  <text x="1016" y="288" text-anchor="middle" class="small">attention</text>
+
+  <path class="line" d="M224 269 H322"/>
+  <path class="line" d="M536 215 H650"/>
+  <path class="line" d="M536 373 H650"/>
+  <path class="line" d="M864 373 C914 365 934 322 956 286"/>
+  <path class="line" d="M864 215 C914 224 934 244 956 258"/>
+
+  <text x="84" y="492" class="small">直觉：MLA 让每个历史位置的 KV 表示更紧凑，但没有把 n 个历史位置合并成更少的位置。</text>
+</svg>

@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1180" height="660" viewBox="0 0 1180 660">
+  <defs>
+    <style>
+      text{font-family:Arial,"Noto Sans SC","Microsoft YaHei",sans-serif;fill:#18202a}
+      .title{font-size:28px;font-weight:700}
+      .sub{font-size:16px;fill:#52616f}
+      .box{fill:#fff;stroke:#bcc8d2;stroke-width:2;rx:8}
+      .blue{fill:#eaf4ff;stroke:#2f7cc0}
+      .orange{fill:#fff2da;stroke:#d08a18}
+      .green{fill:#e9f8ef;stroke:#35a567}
+      .purple{fill:#f2edff;stroke:#7a5ac8}
+      .line{stroke:#506070;stroke-width:2.2;fill:none;marker-end:url(#arrow)}
+      .small{font-size:14px;fill:#5b6670}
+      .token{fill:#dceeff;stroke:#2f7cc0}
+      .comp{fill:#f7e7ff;stroke:#7a5ac8}
+      .pick{fill:#ffe4b2;stroke:#d08a18}
+    </style>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#506070"/>
+    </marker>
+  </defs>
+  <rect width="1180" height="660" fill="#fbfcfe"/>
+  <text x="56" y="56" class="title">CSA：压缩 KV，再用 indexer 做 sparse selection</text>
+  <text x="56" y="84" class="sub">每 m 个 token 压成 1 个 compressed KV entry；top-k entries 与 sliding window KV 一起进入 MQA。</text>
+
+  <g transform="translate(70,138)">
+    <text x="0" y="-18" font-size="18" font-weight="700">1. Token-level compression</text>
+    <rect x="0" y="0" width="42" height="50" class="token"/><rect x="50" y="0" width="42" height="50" class="token"/><rect x="100" y="0" width="42" height="50" class="token"/><rect x="150" y="0" width="42" height="50" class="token"/>
+    <rect x="216" y="0" width="42" height="50" class="token"/><rect x="266" y="0" width="42" height="50" class="token"/><rect x="316" y="0" width="42" height="50" class="token"/><rect x="366" y="0" width="42" height="50" class="token"/>
+    <text x="96" y="83" text-anchor="middle" class="small">block m=4</text>
+    <text x="312" y="83" text-anchor="middle" class="small">block m=4</text>
+    <path class="line" d="M96 58 V112"/>
+    <path class="line" d="M312 58 V112"/>
+    <rect x="54" y="116" width="84" height="52" class="comp"/>
+    <rect x="270" y="116" width="84" height="52" class="comp"/>
+    <text x="96" y="148" text-anchor="middle" font-size="14">C0</text>
+    <text x="312" y="148" text-anchor="middle" font-size="14">C1</text>
+  </g>
+
+  <rect x="560" y="126" width="210" height="90" class="box purple"/>
+  <text x="665" y="160" text-anchor="middle" font-size="18" font-weight="700">Lightning Indexer</text>
+  <text x="665" y="188" text-anchor="middle" class="small">score compressed blocks</text>
+  <path class="line" d="M430 278 C490 248 510 170 560 170"/>
+
+  <g transform="translate(835,122)">
+    <text x="0" y="-14" font-size="18" font-weight="700">2. Top-k selected entries</text>
+    <rect x="0" y="30" width="62" height="52" class="pick"/>
+    <rect x="80" y="30" width="62" height="52" class="pick"/>
+    <rect x="160" y="30" width="62" height="52" class="pick"/>
+    <text x="31" y="62" text-anchor="middle" font-size="14">C7</text>
+    <text x="111" y="62" text-anchor="middle" font-size="14">C2</text>
+    <text x="191" y="62" text-anchor="middle" font-size="14">C19</text>
+  </g>
+  <path class="line" d="M770 170 H835"/>
+
+  <rect x="96" y="398" width="260" height="82" class="box blue"/>
+  <text x="226" y="432" text-anchor="middle" font-size="18" font-weight="700">Sliding Window KV</text>
+  <text x="226" y="458" text-anchor="middle" class="small">recent uncompressed tokens</text>
+
+  <rect x="470" y="380" width="210" height="92" class="box green"/>
+  <text x="575" y="416" text-anchor="middle" font-size="18" font-weight="700">Concat</text>
+  <text x="575" y="442" text-anchor="middle" class="small">window KV + top-k compressed KV</text>
+
+  <rect x="790" y="380" width="230" height="92" class="box orange"/>
+  <text x="905" y="416" text-anchor="middle" font-size="18" font-weight="700">Shared KV MQA</text>
+  <text x="905" y="442" text-anchor="middle" class="small">then grouped output projection</text>
+
+  <path class="line" d="M356 439 H470"/>
+  <path class="line" d="M946 204 C945 288 650 314 604 380"/>
+  <path class="line" d="M680 426 H790"/>
+
+  <text x="88" y="568" class="small">直觉：CSA 同时减少 KV cache 长度 n -> n/m，并把长程 attention 访问限制到 top-k compressed entries。</text>
+</svg>

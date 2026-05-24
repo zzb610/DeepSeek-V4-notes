@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="560" viewBox="0 0 1120 560">
+  <defs>
+    <style>
+      text{font-family:Arial,"Noto Sans SC","Microsoft YaHei",sans-serif;fill:#18202a}
+      .title{font-size:28px;font-weight:700}
+      .sub{font-size:16px;fill:#52616f}
+      .box{fill:#fff;stroke:#bcc8d2;stroke-width:2;rx:8}
+      .input{fill:#eef3f7;stroke:#73808c}
+      .head{fill:#eaf4ff;stroke:#2f7cc0}
+      .kv{fill:#fff2da;stroke:#d08a18}
+      .out{fill:#e9f8ef;stroke:#35a567}
+      .line{stroke:#506070;stroke-width:2.2;fill:none;marker-end:url(#arrow)}
+      .small{font-size:14px;fill:#5b6670}
+      .mono{font-family:Menlo,Consolas,monospace;font-size:15px}
+    </style>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#506070"/>
+    </marker>
+  </defs>
+  <rect width="1120" height="560" fill="#fbfcfe"/>
+  <text x="56" y="56" class="title">MHA：每个 head 都有自己的 K/V</text>
+  <text x="56" y="84" class="sub">表达直接，但 KV cache 会随 seq_len、num_heads、head_dim 一起增长。</text>
+
+  <rect x="70" y="214" width="160" height="88" class="box input"/>
+  <text x="150" y="250" text-anchor="middle" font-size="18" font-weight="700">Hidden H</text>
+  <text x="150" y="278" text-anchor="middle" class="mono">[n, d]</text>
+
+  <g transform="translate(330,116)">
+    <rect x="0" y="0" width="190" height="86" class="box head"/>
+    <text x="95" y="32" text-anchor="middle" font-size="17" font-weight="700">Head 1</text>
+    <text x="95" y="58" text-anchor="middle" class="mono">Q1 K1 V1</text>
+    <rect x="0" y="104" width="190" height="86" class="box head"/>
+    <text x="95" y="136" text-anchor="middle" font-size="17" font-weight="700">Head 2</text>
+    <text x="95" y="162" text-anchor="middle" class="mono">Q2 K2 V2</text>
+    <rect x="0" y="208" width="190" height="86" class="box head"/>
+    <text x="95" y="240" text-anchor="middle" font-size="17" font-weight="700">Head h</text>
+    <text x="95" y="266" text-anchor="middle" class="mono">Qh Kh Vh</text>
+  </g>
+
+  <rect x="642" y="150" width="212" height="212" class="box kv"/>
+  <text x="748" y="188" text-anchor="middle" font-size="18" font-weight="700">KV cache</text>
+  <text x="748" y="220" text-anchor="middle" class="mono">K,V: [n,h,d_head]</text>
+  <text x="748" y="258" text-anchor="middle" class="small">每个历史 token</text>
+  <text x="748" y="282" text-anchor="middle" class="small">每个 KV head</text>
+  <text x="748" y="306" text-anchor="middle" class="small">都要存 K/V</text>
+
+  <rect x="930" y="214" width="140" height="88" class="box out"/>
+  <text x="1000" y="250" text-anchor="middle" font-size="18" font-weight="700">Concat</text>
+  <text x="1000" y="278" text-anchor="middle" class="small">+ W_O</text>
+
+  <path class="line" d="M230 258 H330"/>
+  <path class="line" d="M520 159 H642"/>
+  <path class="line" d="M520 263 H642"/>
+  <path class="line" d="M520 367 C572 378 600 358 642 330"/>
+  <path class="line" d="M854 256 H930"/>
+
+  <text x="80" y="492" class="small">直觉：MHA 没有压缩 KV head，也没有压缩 sequence 维度；长上下文下 cache 和 attention 访问都会变重。</text>
+</svg>

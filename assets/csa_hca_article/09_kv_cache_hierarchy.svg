@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="620" viewBox="0 0 1120 620">
+  <defs>
+    <style>
+      text{font-family:Arial,"Noto Sans SC","Microsoft YaHei",sans-serif;fill:#18202a}
+      .title{font-size:28px;font-weight:700}
+      .sub{font-size:16px;fill:#52616f}
+      .box{fill:#fff;stroke:#bcc8d2;stroke-width:2;rx:8}
+      .gpu{fill:#eaf4ff;stroke:#2f7cc0}
+      .ssd{fill:#fff2da;stroke:#d08a18}
+      .state{fill:#e9f8ef;stroke:#35a567}
+      .cache{fill:#f2edff;stroke:#7a5ac8}
+      .line{stroke:#506070;stroke-width:2.2;fill:none;marker-end:url(#arrow)}
+      .small{font-size:14px;fill:#5b6670}
+      .mono{font-family:Menlo,Consolas,monospace;font-size:14px}
+    </style>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#506070"/>
+    </marker>
+  </defs>
+  <rect width="1120" height="620" fill="#fbfcfe"/>
+  <text x="56" y="56" class="title">DeepSeek-V4 推理侧 KV Cache 管理：压缩缓存与状态缓存分离</text>
+  <text x="56" y="84" class="sub">CSA/HCA 的 compressed KV、SWA 的 sliding window KV、未压缩尾部 token 具有不同生命周期和访问策略。</text>
+
+  <rect x="80" y="150" width="250" height="120" class="box gpu"/>
+  <text x="205" y="186" text-anchor="middle" font-size="18" font-weight="700">GPU Active Cache</text>
+  <text x="205" y="216" text-anchor="middle" class="small">decode 当前工作集</text>
+  <text x="205" y="242" text-anchor="middle" class="mono">window + selected compressed KV</text>
+
+  <rect x="440" y="126" width="270" height="120" class="box cache"/>
+  <text x="575" y="162" text-anchor="middle" font-size="18" font-weight="700">Classic KV Cache</text>
+  <text x="575" y="192" text-anchor="middle" class="small">CSA/HCA compressed KV entries</text>
+  <text x="575" y="218" text-anchor="middle" class="mono">m=4 / m'=128</text>
+
+  <rect x="440" y="306" width="270" height="120" class="box state"/>
+  <text x="575" y="342" text-anchor="middle" font-size="18" font-weight="700">State Cache</text>
+  <text x="575" y="372" text-anchor="middle" class="small">SWA window KV</text>
+  <text x="575" y="398" text-anchor="middle" class="mono">uncompressed tail tokens</text>
+
+  <rect x="820" y="210" width="230" height="150" class="box ssd"/>
+  <text x="935" y="248" text-anchor="middle" font-size="18" font-weight="700">CPU / SSD Tier</text>
+  <text x="935" y="278" text-anchor="middle" class="small">shared-prefix compressed KV</text>
+  <text x="935" y="304" text-anchor="middle" class="small">checkpointed SWA state</text>
+  <text x="935" y="330" text-anchor="middle" class="mono">D2H / H2D reuse</text>
+
+  <path class="line" d="M330 210 H440"/>
+  <path class="line" d="M330 210 C380 258 386 342 440 366"/>
+  <path class="line" d="M710 186 C764 190 780 240 820 260"/>
+  <path class="line" d="M710 366 C764 360 780 320 820 300"/>
+  <path class="line" d="M820 286 C760 286 742 210 710 202"/>
+
+  <rect x="135" y="486" width="850" height="70" class="box"/>
+  <text x="560" y="516" text-anchor="middle" font-size="16" font-weight="700">SWA state 的三种恢复策略</text>
+  <text x="560" y="544" text-anchor="middle" class="small">全量缓存：直接读最近窗口；周期检查点：加载最近 checkpoint 并重算尾部；零缓存：完全重算窗口状态。</text>
+</svg>

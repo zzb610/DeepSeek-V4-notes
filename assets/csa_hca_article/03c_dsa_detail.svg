@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="560" viewBox="0 0 1120 560">
+  <defs>
+    <style>
+      text{font-family:Arial,"Noto Sans SC","Microsoft YaHei",sans-serif;fill:#18202a}
+      .title{font-size:28px;font-weight:700}
+      .sub{font-size:16px;fill:#52616f}
+      .box{fill:#fff;stroke:#bcc8d2;stroke-width:2;rx:8}
+      .query{fill:#fff2da;stroke:#d08a18}
+      .idx{fill:#f2edff;stroke:#7a5ac8}
+      .kv{fill:#eaf4ff;stroke:#2f7cc0}
+      .sel{fill:#ffe4b2;stroke:#d08a18}
+      .attn{fill:#e9f8ef;stroke:#35a567}
+      .line{stroke:#506070;stroke-width:2.2;fill:none;marker-end:url(#arrow)}
+      .small{font-size:14px;fill:#5b6670}
+      .mono{font-family:Menlo,Consolas,monospace;font-size:15px}
+    </style>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#506070"/>
+    </marker>
+  </defs>
+  <rect width="1120" height="560" fill="#fbfcfe"/>
+  <text x="56" y="56" class="title">DSA：先用 indexer 选位置，再做 sparse attention</text>
+  <text x="56" y="84" class="sub">主要减少 sequence/block 访问维度；不再让 query 看所有历史位置。</text>
+
+  <rect x="74" y="220" width="148" height="86" class="box query"/>
+  <text x="148" y="256" text-anchor="middle" font-size="18" font-weight="700">Query token</text>
+  <text x="148" y="282" text-anchor="middle" class="mono">q_t</text>
+
+  <rect x="322" y="170" width="226" height="120" class="box idx"/>
+  <text x="435" y="206" text-anchor="middle" font-size="18" font-weight="700">Lightning Indexer</text>
+  <text x="435" y="234" text-anchor="middle" class="small">score all history positions</text>
+  <text x="435" y="260" text-anchor="middle" class="mono">I_t: [n]</text>
+
+  <g transform="translate(318,348)">
+    <text x="118" y="-18" text-anchor="middle" font-size="17" font-weight="700">History KV positions</text>
+    <rect x="0" y="0" width="28" height="42" class="kv"/>
+    <rect x="36" y="0" width="28" height="42" class="kv"/>
+    <rect x="72" y="0" width="28" height="42" class="kv"/>
+    <rect x="108" y="0" width="28" height="42" class="kv"/>
+    <rect x="144" y="0" width="28" height="42" class="kv"/>
+    <rect x="180" y="0" width="28" height="42" class="kv"/>
+    <rect x="216" y="0" width="28" height="42" class="kv"/>
+  </g>
+
+  <rect x="668" y="206" width="178" height="104" class="box sel"/>
+  <text x="757" y="242" text-anchor="middle" font-size="18" font-weight="700">Top-k</text>
+  <text x="757" y="270" text-anchor="middle" class="small">retain relevant indices</text>
+  <text x="757" y="294" text-anchor="middle" class="mono">k &lt;&lt; n</text>
+
+  <g transform="translate(670,365)">
+    <rect x="0" y="0" width="44" height="48" class="sel"/>
+    <rect x="64" y="0" width="44" height="48" class="sel"/>
+    <rect x="128" y="0" width="44" height="48" class="sel"/>
+    <text x="22" y="30" text-anchor="middle" font-size="14">i3</text>
+    <text x="86" y="30" text-anchor="middle" font-size="14">i9</text>
+    <text x="150" y="30" text-anchor="middle" font-size="14">i21</text>
+  </g>
+
+  <rect x="930" y="220" width="150" height="86" class="box attn"/>
+  <text x="1005" y="254" text-anchor="middle" font-size="18" font-weight="700">Sparse</text>
+  <text x="1005" y="280" text-anchor="middle" font-size="18" font-weight="700">Attention</text>
+
+  <path class="line" d="M222 263 H322"/>
+  <path class="line" d="M548 230 H668"/>
+  <path class="line" d="M548 386 C596 380 622 374 670 389"/>
+  <path class="line" d="M846 258 H930"/>
+  <path class="line" d="M842 389 C900 384 930 330 954 292"/>
+
+  <text x="84" y="492" class="small">直觉：DSA 压缩的是“访问哪些位置”，而不是把每个 token 的 KV 表示压窄或把多个 token 合成一个 entry。</text>
+</svg>

@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="600" viewBox="0 0 1120 600">
+  <defs>
+    <style>
+      text{font-family:Arial,"Noto Sans SC","Microsoft YaHei",sans-serif;fill:#18202a}
+      .title{font-size:28px;font-weight:700}
+      .sub{font-size:16px;fill:#52616f}
+      .box{fill:#fff;stroke:#bcc8d2;stroke-width:2;rx:8}
+      .blue{fill:#eaf4ff;stroke:#2f7cc0}
+      .orange{fill:#fff2da;stroke:#d08a18}
+      .green{fill:#e9f8ef;stroke:#35a567}
+      .line{stroke:#506070;stroke-width:2.2;fill:none;marker-end:url(#arrow)}
+      .small{font-size:14px;fill:#5b6670}
+      .token{fill:#dceeff;stroke:#2f7cc0}
+      .comp{fill:#f7e7ff;stroke:#7a5ac8}
+    </style>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#506070"/>
+    </marker>
+  </defs>
+  <rect width="1120" height="600" fill="#fbfcfe"/>
+  <text x="56" y="56" class="title">HCA：更高压缩率下的全局覆盖</text>
+  <text x="56" y="84" class="sub">HCA 不做 sparse top-k，而是在 heavily compressed KV entries 上做 dense attention。</text>
+
+  <g transform="translate(70,158)">
+    <text x="0" y="-24" font-size="18" font-weight="700">原始历史 token</text>
+    <g>
+      <rect x="0" y="0" width="22" height="38" class="token"/><rect x="28" y="0" width="22" height="38" class="token"/><rect x="56" y="0" width="22" height="38" class="token"/><rect x="84" y="0" width="22" height="38" class="token"/>
+      <rect x="112" y="0" width="22" height="38" class="token"/><rect x="140" y="0" width="22" height="38" class="token"/><rect x="168" y="0" width="22" height="38" class="token"/><rect x="196" y="0" width="22" height="38" class="token"/>
+      <rect x="224" y="0" width="22" height="38" class="token"/><rect x="252" y="0" width="22" height="38" class="token"/><rect x="280" y="0" width="22" height="38" class="token"/><rect x="308" y="0" width="22" height="38" class="token"/>
+      <rect x="336" y="0" width="22" height="38" class="token"/><rect x="364" y="0" width="22" height="38" class="token"/><rect x="392" y="0" width="22" height="38" class="token"/><rect x="420" y="0" width="22" height="38" class="token"/>
+    </g>
+    <text x="221" y="72" text-anchor="middle" class="small">m' 很大，例如 128</text>
+  </g>
+
+  <path class="line" d="M295 245 V315"/>
+  <rect x="182" y="320" width="226" height="88" class="box green"/>
+  <text x="295" y="354" text-anchor="middle" font-size="18" font-weight="700">Token-Level Compressor</text>
+  <text x="295" y="382" text-anchor="middle" class="small">learned weighted pooling</text>
+
+  <path class="line" d="M408 364 H548"/>
+  <g transform="translate(570,315)">
+    <text x="80" y="-22" text-anchor="middle" font-size="18" font-weight="700">heavily compressed KV</text>
+    <rect x="0" y="20" width="70" height="62" class="comp"/>
+    <rect x="92" y="20" width="70" height="62" class="comp"/>
+    <text x="35" y="57" text-anchor="middle" font-size="15">G0</text>
+    <text x="127" y="57" text-anchor="middle" font-size="15">G1</text>
+  </g>
+
+  <rect x="800" y="210" width="220" height="88" class="box blue"/>
+  <text x="910" y="244" text-anchor="middle" font-size="18" font-weight="700">Sliding Window KV</text>
+  <text x="910" y="272" text-anchor="middle" class="small">recent details</text>
+
+  <rect x="800" y="390" width="220" height="92" class="box orange"/>
+  <text x="910" y="424" text-anchor="middle" font-size="18" font-weight="700">Dense Attention</text>
+  <text x="910" y="452" text-anchor="middle" class="small">over compressed entries</text>
+
+  <path class="line" d="M732 366 C772 378 784 412 800 430"/>
+  <path class="line" d="M910 298 V390"/>
+  <text x="86" y="535" class="small">直觉：HCA 把超长历史做成粗粒度全局摘要；dense 的对象是 n/m' 个 compressed entries，而不是 n 个 token。</text>
+</svg>

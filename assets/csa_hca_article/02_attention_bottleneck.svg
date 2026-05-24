@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="560" viewBox="0 0 1120 560">
+  <defs>
+    <style>
+      text{font-family:Arial,"Noto Sans SC","Microsoft YaHei",sans-serif;fill:#18202a}
+      .title{font-size:28px;font-weight:700}
+      .sub{font-size:16px;fill:#52616f}
+      .axis{stroke:#2b3440;stroke-width:2}
+      .grid{stroke:#dbe2e8;stroke-width:1}
+      .line1{stroke:#2f7cc0;stroke-width:5;fill:none}
+      .line2{stroke:#d08a18;stroke-width:5;fill:none}
+      .box{fill:#fff;stroke:#bcc8d2;stroke-width:2;rx:8}
+      .token{fill:#eaf4ff;stroke:#2f7cc0}
+      .query{fill:#fff2da;stroke:#d08a18}
+      .small{font-size:14px;fill:#5b6670}
+    </style>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#506070"/>
+    </marker>
+  </defs>
+  <rect width="1120" height="560" fill="#fbfcfe"/>
+  <text x="56" y="56" class="title">长上下文瓶颈：每生成一个 token 都要读历史 KV</text>
+  <text x="56" y="84" class="sub">KV cache 随上下文长度增长；decode 阶段单 token attention 也随历史 token 数增长。</text>
+
+  <rect x="64" y="140" width="456" height="310" class="box"/>
+  <text x="92" y="178" font-size="19" font-weight="700">Decode 阶段的数据流</text>
+  <g transform="translate(90,225)">
+    <rect x="0" y="0" width="46" height="54" class="token"/>
+    <rect x="58" y="0" width="46" height="54" class="token"/>
+    <rect x="116" y="0" width="46" height="54" class="token"/>
+    <rect x="174" y="0" width="46" height="54" class="token"/>
+    <rect x="232" y="0" width="46" height="54" class="token"/>
+    <rect x="318" y="0" width="64" height="54" class="query"/>
+    <text x="23" y="34" text-anchor="middle" font-size="14">KV</text>
+    <text x="81" y="34" text-anchor="middle" font-size="14">KV</text>
+    <text x="139" y="34" text-anchor="middle" font-size="14">KV</text>
+    <text x="197" y="34" text-anchor="middle" font-size="14">KV</text>
+    <text x="255" y="34" text-anchor="middle" font-size="14">KV</text>
+    <text x="350" y="34" text-anchor="middle" font-size="14">Q_t</text>
+    <path d="M318 64 C248 116 100 116 23 64" stroke="#d08a18" stroke-width="2.5" fill="none" marker-end="url(#arrow)"/>
+    <path d="M318 64 C270 102 170 102 139 64" stroke="#d08a18" stroke-width="2.5" fill="none" marker-end="url(#arrow)"/>
+    <path d="M318 64 C302 88 266 88 255 64" stroke="#d08a18" stroke-width="2.5" fill="none" marker-end="url(#arrow)"/>
+  </g>
+  <text x="92" y="370" class="small">KV cache shape: [batch, seq_len, num_heads, head_dim]</text>
+  <text x="92" y="398" class="small">score_t = q_t dot K_{1:t}^T</text>
+
+  <rect x="590" y="140" width="466" height="310" class="box"/>
+  <text x="618" y="178" font-size="19" font-weight="700">两个成本随 seq_len 增长</text>
+  <g transform="translate(640,215)">
+    <line x1="0" y1="180" x2="340" y2="180" class="axis"/>
+    <line x1="0" y1="180" x2="0" y2="0" class="axis"/>
+    <line x1="0" y1="135" x2="340" y2="135" class="grid"/>
+    <line x1="0" y1="90" x2="340" y2="90" class="grid"/>
+    <line x1="0" y1="45" x2="340" y2="45" class="grid"/>
+    <path class="line1" d="M0 168 L88 132 L176 92 L264 50 L340 20"/>
+    <path class="line2" d="M0 172 L88 144 L176 112 L264 76 L340 42"/>
+    <text x="342" y="198" class="small">seq_len</text>
+    <text x="-14" y="-10" class="small">cost</text>
+    <rect x="66" y="206" width="16" height="16" fill="#2f7cc0"/>
+    <text x="90" y="219" class="small">KV cache / bandwidth</text>
+    <rect x="232" y="206" width="16" height="16" fill="#d08a18"/>
+    <text x="256" y="219" class="small">attention FLOPs</text>
+  </g>
+</svg>
